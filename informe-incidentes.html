@@ -3,72 +3,119 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#126c7a">
-    <title>Generador de Informes de Incidentes</title>
+    <meta name="theme-color" content="#179bd7">
+    <title>Informe de Intervenci&oacute;n UrbaPark</title>
     <link rel="stylesheet" href="informe-incidentes.css">
 </head>
 <body>
     <main class="app-shell">
         <header class="header">
+            <img src="assets/urbapark-logo.png" alt="UrbaPark" class="brand-logo">
             <div>
-                <p class="eyebrow">Mantenimiento correctivo</p>
-                <h1>Informe de incidentes</h1>
+                <p class="eyebrow">Informe de mantenimiento</p>
+                <h1>Registro de intervenci&oacute;n</h1>
+                <p>Complete los datos, registre cada tarea con evidencia fotogr&aacute;fica y guarde el informe final.</p>
             </div>
-            <p>Registre el incidente, documente las acciones realizadas y genere un reporte listo para imprimir o compartir.</p>
         </header>
 
         <section class="workspace" aria-label="Generador de informes">
             <form id="incidentForm" novalidate>
                 <div class="section-heading">
-                    <h2>Datos del incidente</h2>
-                    <p>Los campos marcados con asterisco son obligatorios.</p>
+                    <h2>Datos de la intervenci&oacute;n</h2>
+                    <p>Todos los campos marcados con asterisco son obligatorios para guardar el informe.</p>
                 </div>
 
-                <div class="date-field">
-                    <div class="form-group" id="fechaGroup">
-                        <label for="fecha" class="required">Fecha del incidente</label>
-                        <input type="date" id="fecha" name="fecha" required aria-describedby="fechaError">
-                        <p class="error-message" id="fechaError">Seleccione la fecha del incidente.</p>
+                <div class="form-grid">
+                    <div class="form-group" id="personalGroup">
+                        <label for="personal" class="required">Personal que realiz&oacute; la intervenci&oacute;n</label>
+                        <input type="text" id="personal" name="personal" placeholder="Nombre y apellido" required>
+                        <p class="error-message">Ingrese el nombre del personal.</p>
                     </div>
 
-                    <div class="form-group" id="horaGroup">
-                        <label for="hora" class="required">Hora</label>
-                        <input type="time" id="hora" name="hora" required aria-describedby="horaError">
-                        <p class="error-message" id="horaError">Seleccione la hora del incidente.</p>
+                    <div class="form-group" id="sedeGroup">
+                        <label for="sede" class="required">Sede</label>
+                        <input type="text" id="sede" name="sede" placeholder="Sede donde se realiza la intervenci&oacute;n" required>
+                        <p class="error-message">Ingrese la sede.</p>
+                    </div>
+
+                    <div class="form-group" id="equipoGroup">
+                        <label for="equipo" class="required">Equipo a intervenir</label>
+                        <input type="text" id="equipo" name="equipo" placeholder="Nombre o c&oacute;digo del equipo" required>
+                        <p class="error-message">Ingrese el equipo a intervenir.</p>
+                    </div>
+
+                    <div class="form-group" id="tipoMantenimientoGroup">
+                        <label for="tipoMantenimiento" class="required">Tipo de mantenimiento</label>
+                        <select id="tipoMantenimiento" name="tipoMantenimiento" required>
+                            <option value="">Seleccione una opci&oacute;n</option>
+                            <option value="Preventivo">Preventivo</option>
+                            <option value="Correctivo">Correctivo</option>
+                            <option value="Verificaci&oacute;n">Verificaci&oacute;n</option>
+                        </select>
+                        <p class="error-message">Seleccione el tipo de mantenimiento.</p>
+                    </div>
+
+                    <div class="form-group" id="estadoInicialGroup">
+                        <label for="estadoInicial" class="required">Estado inicial del equipo</label>
+                        <select id="estadoInicial" name="estadoInicial" required>
+                            <option value="">Seleccione una opci&oacute;n</option>
+                            <option value="Funcional">Funcional</option>
+                            <option value="No enciende">No enciende</option>
+                            <option value="Otro">Otro</option>
+                        </select>
+                        <p class="error-message">Seleccione el estado inicial.</p>
+                    </div>
+
+                    <div class="form-group conditional-field" id="estadoInicialOtroGroup">
+                        <label for="estadoInicialOtro">Detalle del estado inicial</label>
+                        <input type="text" id="estadoInicialOtro" name="estadoInicialOtro" placeholder="Describa el estado inicial">
+                        <p class="error-message">Detalle el estado inicial del equipo.</p>
+                    </div>
+
+                    <div class="form-group" id="horaInicioGroup">
+                        <label for="horaInicio" class="required">Hora de inicio</label>
+                        <input type="time" id="horaInicio" name="horaInicio" required>
+                        <p class="error-message">Ingrese la hora de inicio.</p>
+                    </div>
+
+                    <div class="form-group" id="horaFinalGroup">
+                        <label for="horaFinal" class="required">Hora final</label>
+                        <input type="time" id="horaFinal" name="horaFinal" required>
+                        <p class="error-message">Ingrese la hora final.</p>
                     </div>
                 </div>
 
                 <div class="form-group" id="incidenteGroup">
-                    <label for="incidente" class="required">Informe del incidente</label>
+                    <label for="incidente" class="required">Informe del incidente / requerimiento</label>
                     <textarea
                         id="incidente"
                         name="incidente"
-                        placeholder="Describa detalladamente el incidente ocurrido."
+                        placeholder="Describa el incidente, requerimiento o motivo de la intervenci&oacute;n."
                         required
-                        aria-describedby="incidenteError"
                     ></textarea>
-                    <p class="error-message" id="incidenteError">Describa el incidente antes de generar el informe.</p>
+                    <p class="error-message">Describa el motivo de la intervenci&oacute;n.</p>
                 </div>
 
                 <div class="form-group activity-builder" id="activityTasksGroup">
                     <div class="field-header">
                         <div>
-                            <label>Actividades realizadas</label>
-                            <p>Marque cada tarea realizada para abrir su detalle y adjuntar fotos.</p>
+                            <label class="required">Actividades realizadas</label>
+                            <p>Marque cada tarea, describa lo realizado y tome al menos una foto con subt&iacute;tulo.</p>
                         </div>
-                        <button type="button" class="btn btn-secondary btn-compact" id="btnAgregarTarea">Agregar tarea</button>
                     </div>
                     <div class="task-list" id="taskList"></div>
-                    <p class="error-message" id="activityTasksError">Agregue al menos una tarea realizada o contin&uacute;e sin actividades si no aplica.</p>
+                    <p class="error-message" id="activityTasksError">Complete al menos una tarea con detalle, foto y subt&iacute;tulo.</p>
                 </div>
 
-                <div class="form-group">
-                    <label for="solucion">Soluci&oacute;n realizada</label>
+                <div class="form-group" id="solucionGroup">
+                    <label for="solucion" class="required">Soluci&oacute;n realizada</label>
                     <textarea
                         id="solucion"
                         name="solucion"
                         placeholder="Describa la soluci&oacute;n implementada y los resultados obtenidos."
+                        required
                     ></textarea>
+                    <p class="error-message">Describa la soluci&oacute;n realizada.</p>
                 </div>
 
                 <div class="form-group">
@@ -81,22 +128,24 @@
                     ></textarea>
                 </div>
 
-                <div class="form-group">
-                    <label for="conclusiones">Conclusiones</label>
+                <div class="form-group" id="conclusionesGroup">
+                    <label for="conclusiones" class="required">Conclusiones</label>
                     <textarea
                         id="conclusiones"
                         name="conclusiones"
                         class="small"
                         placeholder="Registre conclusiones, recomendaciones o lecciones aprendidas."
+                        required
                     ></textarea>
+                    <p class="error-message">Ingrese las conclusiones.</p>
                 </div>
 
                 <div class="button-group" aria-label="Acciones del formulario">
                     <button type="button" class="btn btn-secondary" id="btnLimpiar">Limpiar</button>
                     <button type="button" class="btn btn-primary" id="btnPrevisualizar">Previsualizar</button>
                     <button type="button" class="btn btn-secondary" id="btnCopiar">Copiar</button>
-                    <button type="button" class="btn btn-secondary" id="btnDescargar">Descargar</button>
-                    <button type="submit" class="btn btn-success" id="btnGenerar">Imprimir</button>
+                    <button type="button" class="btn btn-success" id="btnDescargar">Guardar informe</button>
+                    <button type="submit" class="btn btn-secondary" id="btnGenerar">Imprimir</button>
                 </div>
 
                 <p class="status-message" id="statusMessage" role="status" aria-live="polite"></p>
@@ -104,14 +153,22 @@
 
             <article class="preview-section" id="previewSection" aria-live="polite">
                 <div class="report-header">
-                    <p class="report-label">Reporte generado</p>
-                    <h2>Informe t&eacute;cnico de incidente</h2>
-                    <p id="previewFecha">-</p>
+                    <img src="assets/urbapark-logo.png" alt="UrbaPark" class="report-logo">
+                    <div>
+                        <p class="report-label">Reporte generado</p>
+                        <h2>Informe t&eacute;cnico de intervenci&oacute;n</h2>
+                        <p id="previewFechaGuardado">-</p>
+                    </div>
                 </div>
 
                 <div class="preview-grid">
                     <section class="preview-item">
-                        <h3>Informe del incidente</h3>
+                        <h3>Datos generales</h3>
+                        <dl class="report-details" id="previewDatosGenerales"></dl>
+                    </section>
+
+                    <section class="preview-item">
+                        <h3>Informe del incidente / requerimiento</h3>
                         <p id="previewIncidente">-</p>
                     </section>
 
