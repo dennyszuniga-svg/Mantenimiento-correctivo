@@ -97,8 +97,8 @@ function createTask(overrides = {}) {
 function addTask() {
     const lastTask = tasks[tasks.length - 1];
 
-    if (lastTask && !lastTask.done) {
-        setStatus('Marque la tarea actual para abrir su detalle antes de agregar otra.', true);
+    if (lastTask && !isTaskReadyForNext(lastTask)) {
+        setStatus('Complete la tarea actual con detalle y al menos una foto antes de agregar otra.', true);
         return;
     }
 
@@ -129,7 +129,7 @@ function renderTasks() {
                 </div>
                 <div>
                     <label for="taskPhotos${task.id}">Fotos de evidencia</label>
-                    <input type="file" id="taskPhotos${task.id}" data-action="task-photos" accept="image/jpeg,image/png,image/webp,image/gif" multiple>
+                    <input type="file" id="taskPhotos${task.id}" data-action="task-photos" accept="image/jpeg,image/png,image/webp,image/gif" capture="environment" multiple>
                 </div>
                 <div class="photo-list" id="photoList${task.id}" aria-label="Fotos agregadas a la tarea ${index + 1}"></div>
             </div>
@@ -159,8 +159,12 @@ taskList.addEventListener('change', async (event) => {
     if (event.target.dataset.action === 'task-photos') {
         const photos = await readImageFiles([...event.target.files]);
         task.photos.push(...photos);
+        const createdNextTask = ensureNextTaskIfReady(task);
         renderTasks();
-        setStatus(`${photos.length} foto${photos.length === 1 ? '' : 's'} agregada${photos.length === 1 ? '' : 's'} a la tarea.`);
+        setStatus(createdNextTask
+            ? 'Tarea completada. Se habilito la siguiente tarea.'
+            : `${photos.length} foto${photos.length === 1 ? '' : 's'} agregada${photos.length === 1 ? '' : 's'} a la tarea.`
+        );
     }
 });
 
@@ -169,6 +173,10 @@ taskList.addEventListener('input', (event) => {
 
     if (task && event.target.dataset.action === 'task-description') {
         task.description = event.target.value;
+        if (ensureNextTaskIfReady(task)) {
+            renderTasks();
+            return;
+        }
         clearStatus();
     }
 });
@@ -202,6 +210,22 @@ function getTaskFromEvent(event) {
     }
 
     return tasks.find((task) => task.id === Number(card.dataset.taskId));
+}
+
+function ensureNextTaskIfReady(task) {
+    const isLastTask = tasks[tasks.length - 1]?.id === task.id;
+
+    if (isLastTask && isTaskReadyForNext(task)) {
+        createTask();
+        setStatus('Tarea completada. Se habilito la siguiente tarea.');
+        return true;
+    }
+
+    return false;
+}
+
+function isTaskReadyForNext(task) {
+    return task.done && Boolean(task.description.trim()) && task.photos.length > 0;
 }
 
 function getTaskCard(taskId) {
