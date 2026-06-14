@@ -50,14 +50,16 @@
                     <p class="error-message" id="incidenteError">Describa el incidente antes de generar el informe.</p>
                 </div>
 
-                <div class="form-group">
-                    <label for="actividades">Actividades realizadas</label>
-                    <textarea
-                        id="actividades"
-                        name="actividades"
-                        class="small"
-                        placeholder="Detalle las actividades realizadas durante la atenci&oacute;n."
-                    ></textarea>
+                <div class="form-group activity-builder" id="activityTasksGroup">
+                    <div class="field-header">
+                        <div>
+                            <label>Actividades realizadas</label>
+                            <p>Marque cada tarea realizada para abrir su detalle y adjuntar fotos.</p>
+                        </div>
+                        <button type="button" class="btn btn-secondary btn-compact" id="btnAgregarTarea">Agregar tarea</button>
+                    </div>
+                    <div class="task-list" id="taskList"></div>
+                    <p class="error-message" id="activityTasksError">Agregue al menos una tarea realizada o contin&uacute;e sin actividades si no aplica.</p>
                 </div>
 
                 <div class="form-group">
@@ -115,7 +117,7 @@
 
                     <section class="preview-item">
                         <h3>Actividades realizadas</h3>
-                        <p id="previewActividades">-</p>
+                        <div class="report-tasks" id="previewActividades">-</div>
                     </section>
 
                     <section class="preview-item">
