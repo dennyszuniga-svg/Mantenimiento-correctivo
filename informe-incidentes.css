@@ -93,6 +93,45 @@ body {
     font-size: 14px;
 }
 
+.progress-panel {
+    display: grid;
+    gap: 8px;
+    margin-bottom: 22px;
+    padding: 14px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--surface-muted);
+}
+
+.progress-copy {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    color: var(--text);
+    font-size: 14px;
+}
+
+.progress-copy span {
+    color: var(--muted);
+    font-weight: 700;
+}
+
+.progress-track {
+    overflow: hidden;
+    height: 10px;
+    border-radius: 999px;
+    background: #dcecf4;
+}
+
+.progress-bar {
+    width: 0%;
+    height: 100%;
+    border-radius: inherit;
+    background: linear-gradient(90deg, var(--brand-orange) 0%, var(--primary) 100%);
+    transition: width 0.25s ease;
+}
+
 .form-grid {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -131,6 +170,12 @@ body {
     font: inherit;
     font-size: 15px;
     transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.form-group input[readonly] {
+    background: #edf5f9;
+    color: var(--muted);
+    font-weight: 800;
 }
 
 .form-group textarea {
@@ -240,6 +285,24 @@ body {
     min-height: 90px;
 }
 
+.photo-controls {
+    display: grid;
+    grid-template-columns: minmax(0, 190px) auto;
+    align-items: end;
+    gap: 12px;
+}
+
+.photo-controls select {
+    width: 100%;
+    padding: 10px 11px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: #fff;
+    color: var(--text);
+    font: inherit;
+    font-size: 14px;
+}
+
 .camera-input {
     position: absolute;
     width: 1px;
@@ -301,6 +364,15 @@ body {
     font-size: 13px;
 }
 
+.photo-body select {
+    width: 100%;
+    padding: 8px 9px;
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    font: inherit;
+    font-size: 13px;
+}
+
 .photo-meta {
     display: flex;
     align-items: center;
@@ -322,6 +394,7 @@ body {
 .form-group textarea:focus,
 .form-group input:focus,
 .form-group select:focus,
+.photo-body select:focus,
 .photo-body input:focus {
     outline: none;
     border-color: var(--primary);
@@ -332,7 +405,8 @@ body {
 .form-group.error input,
 .form-group.error select,
 .task-card.error textarea,
-.task-card.error input {
+.task-card.error input,
+.signature-card.error canvas {
     border-color: var(--danger);
 }
 
@@ -365,6 +439,12 @@ body {
     font-weight: 800;
     cursor: pointer;
     transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
+}
+
+.btn-small {
+    min-height: 36px;
+    padding: 8px 12px;
+    font-size: 13px;
 }
 
 .btn:hover {
@@ -411,6 +491,26 @@ body {
     margin-top: 12px;
     color: var(--primary);
     font-size: 14px;
+}
+
+.signature-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.signature-card canvas {
+    display: block;
+    width: 100%;
+    height: 160px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: #fff;
+    touch-action: none;
+}
+
+.signature-card .btn {
+    margin-top: 8px;
 }
 
 .preview-section {
@@ -532,6 +632,34 @@ body {
     font-weight: 700;
 }
 
+.report-signatures {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.report-signature {
+    padding: 12px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: var(--surface-muted);
+}
+
+.report-signature img {
+    display: block;
+    width: 100%;
+    height: 110px;
+    object-fit: contain;
+    border-bottom: 1px solid var(--border);
+    background: #fff;
+}
+
+.report-signature p {
+    margin-top: 8px;
+    text-align: center;
+    font-weight: 800;
+}
+
 @media (max-width: 860px) {
     body {
         padding: 16px;
@@ -551,7 +679,9 @@ body {
     }
 
     .form-grid,
-    .report-details {
+    .report-details,
+    .signature-grid,
+    .report-signatures {
         grid-template-columns: 1fr;
     }
 
@@ -561,6 +691,10 @@ body {
 
     .field-header {
         display: block;
+    }
+
+    .photo-controls {
+        grid-template-columns: 1fr;
     }
 }
 

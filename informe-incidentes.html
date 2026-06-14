@@ -25,7 +25,28 @@
                     <p>Todos los campos marcados con asterisco son obligatorios para guardar el informe.</p>
                 </div>
 
+                <div class="progress-panel" aria-label="Progreso del informe">
+                    <div class="progress-copy">
+                        <strong id="progressText">Datos 0% completos</strong>
+                        <span id="reportNumberLabel">Informe -</span>
+                    </div>
+                    <div class="progress-track">
+                        <div class="progress-bar" id="progressBar"></div>
+                    </div>
+                </div>
+
                 <div class="form-grid">
+                    <div class="form-group" id="numeroInformeGroup">
+                        <label for="numeroInforme">N&uacute;mero de informe</label>
+                        <input type="text" id="numeroInforme" name="numeroInforme" readonly>
+                    </div>
+
+                    <div class="form-group" id="clienteAreaGroup">
+                        <label for="clienteArea" class="required">Cliente / &aacute;rea solicitante</label>
+                        <input type="text" id="clienteArea" name="clienteArea" placeholder="Cliente o &aacute;rea que solicita la intervenci&oacute;n" required>
+                        <p class="error-message">Ingrese el cliente o &aacute;rea solicitante.</p>
+                    </div>
+
                     <div class="form-group" id="personalGroup">
                         <label for="personal" class="required">Personal que realiz&oacute; la intervenci&oacute;n</label>
                         <input type="text" id="personal" name="personal" placeholder="Nombre y apellido" required>
@@ -42,6 +63,18 @@
                         <label for="equipo" class="required">Equipo a intervenir</label>
                         <input type="text" id="equipo" name="equipo" placeholder="Nombre o c&oacute;digo del equipo" required>
                         <p class="error-message">Ingrese el equipo a intervenir.</p>
+                    </div>
+
+                    <div class="form-group" id="prioridadGroup">
+                        <label for="prioridad" class="required">Prioridad</label>
+                        <select id="prioridad" name="prioridad" required>
+                            <option value="">Seleccione una opci&oacute;n</option>
+                            <option value="Baja">Baja</option>
+                            <option value="Media">Media</option>
+                            <option value="Alta">Alta</option>
+                            <option value="Cr&iacute;tica">Cr&iacute;tica</option>
+                        </select>
+                        <p class="error-message">Seleccione la prioridad.</p>
                     </div>
 
                     <div class="form-group" id="tipoMantenimientoGroup">
@@ -83,6 +116,11 @@
                         <input type="time" id="horaFinal" name="horaFinal" required>
                         <p class="error-message">Ingrese la hora final.</p>
                     </div>
+
+                    <div class="form-group" id="duracionGroup">
+                        <label for="duracion">Duraci&oacute;n autom&aacute;tica</label>
+                        <input type="text" id="duracion" name="duracion" readonly placeholder="Se calcula con inicio y final">
+                    </div>
                 </div>
 
                 <div class="form-group" id="incidenteGroup">
@@ -118,6 +156,30 @@
                     <p class="error-message">Describa la soluci&oacute;n realizada.</p>
                 </div>
 
+                <div class="form-grid">
+                    <div class="form-group" id="resultadoFinalGroup">
+                        <label for="resultadoFinal" class="required">Resultado final</label>
+                        <select id="resultadoFinal" name="resultadoFinal" required>
+                            <option value="">Seleccione una opci&oacute;n</option>
+                            <option value="Operativo">Operativo</option>
+                            <option value="Pendiente">Pendiente</option>
+                            <option value="Requiere repuesto">Requiere repuesto</option>
+                            <option value="Requiere visita adicional">Requiere visita adicional</option>
+                        </select>
+                        <p class="error-message">Seleccione el resultado final.</p>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="repuestos">Repuestos utilizados</label>
+                        <textarea
+                            id="repuestos"
+                            name="repuestos"
+                            class="small"
+                            placeholder="Liste repuestos, c&oacute;digos o cantidades. Si no aplica, deje en blanco."
+                        ></textarea>
+                    </div>
+                </div>
+
                 <div class="form-group">
                     <label for="observaciones">Observaciones</label>
                     <textarea
@@ -140,12 +202,28 @@
                     <p class="error-message">Ingrese las conclusiones.</p>
                 </div>
 
+                <div class="signature-grid">
+                    <div class="form-group signature-card" id="firmaTecnicoGroup">
+                        <label class="required">Firma digital del t&eacute;cnico</label>
+                        <canvas id="firmaTecnico" width="560" height="180" aria-label="Firma digital del tecnico"></canvas>
+                        <button type="button" class="btn btn-secondary btn-small" data-clear-signature="firmaTecnico">Limpiar firma</button>
+                        <p class="error-message">Registre la firma del t&eacute;cnico.</p>
+                    </div>
+
+                    <div class="form-group signature-card" id="firmaSupervisorGroup">
+                        <label class="required">Firma digital del supervisor</label>
+                        <canvas id="firmaSupervisor" width="560" height="180" aria-label="Firma digital del supervisor"></canvas>
+                        <button type="button" class="btn btn-secondary btn-small" data-clear-signature="firmaSupervisor">Limpiar firma</button>
+                        <p class="error-message">Registre la firma del supervisor.</p>
+                    </div>
+                </div>
+
                 <div class="button-group" aria-label="Acciones del formulario">
                     <button type="button" class="btn btn-secondary" id="btnLimpiar">Limpiar</button>
                     <button type="button" class="btn btn-primary" id="btnPrevisualizar">Previsualizar</button>
                     <button type="button" class="btn btn-secondary" id="btnCopiar">Copiar</button>
                     <button type="button" class="btn btn-success" id="btnDescargar">Guardar informe</button>
-                    <button type="submit" class="btn btn-secondary" id="btnGenerar">Imprimir</button>
+                    <button type="submit" class="btn btn-secondary" id="btnGenerar">Exportar PDF</button>
                 </div>
 
                 <p class="status-message" id="statusMessage" role="status" aria-live="polite"></p>
@@ -190,6 +268,11 @@
                     <section class="preview-item">
                         <h3>Conclusiones</h3>
                         <p id="previewConclusiones">-</p>
+                    </section>
+
+                    <section class="preview-item">
+                        <h3>Firmas</h3>
+                        <div class="report-signatures" id="previewFirmas"></div>
                     </section>
                 </div>
             </article>
