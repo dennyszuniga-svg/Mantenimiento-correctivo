@@ -113,8 +113,8 @@
 
                     <div class="form-group" id="horaFinalGroup">
                         <label for="horaFinal" class="required">Hora final</label>
-                        <input type="time" id="horaFinal" name="horaFinal" required>
-                        <p class="error-message">Ingrese la hora final.</p>
+                        <input type="time" id="horaFinal" name="horaFinal" readonly required>
+                        <p class="error-message">Registre la firma del supervisor o administrador de turno para colocar la hora final.</p>
                     </div>
 
                     <div class="form-group" id="duracionGroup">
@@ -211,10 +211,10 @@
                     </div>
 
                     <div class="form-group signature-card" id="firmaSupervisorGroup">
-                        <label class="required">Firma digital del supervisor</label>
-                        <canvas id="firmaSupervisor" width="560" height="180" aria-label="Firma digital del supervisor"></canvas>
+                        <label class="required">Firma digital del supervisor o administrador de turno</label>
+                        <canvas id="firmaSupervisor" width="560" height="180" aria-label="Firma digital del supervisor o administrador de turno"></canvas>
                         <button type="button" class="btn btn-secondary btn-small" data-clear-signature="firmaSupervisor">Limpiar firma</button>
-                        <p class="error-message">Registre la firma del supervisor.</p>
+                        <p class="error-message">Registre la firma del supervisor o administrador de turno.</p>
                     </div>
                 </div>
 

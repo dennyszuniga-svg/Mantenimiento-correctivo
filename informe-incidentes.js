@@ -109,6 +109,10 @@ document.querySelectorAll('[data-clear-signature]').forEach((button) => {
     button.addEventListener('click', () => {
         const id = button.dataset.clearSignature;
         signaturePads[id].clear();
+        if (id === 'firmaSupervisor') {
+            fields.horaFinal.value = '';
+            updateDuration();
+        }
         setFieldError(id, false);
         scheduleDraftSave();
     });
@@ -495,7 +499,7 @@ function renderSignatures(report) {
         </figure>
         <figure class="report-signature">
             <img src="${report.firmaSupervisor}" alt="Firma del supervisor">
-            <p>Firma del supervisor</p>
+            <p>Firma del supervisor o administrador de turno</p>
         </figure>
     `;
 }
@@ -711,20 +715,22 @@ function buildReportHtml(report) {
     <style>
         body { color: #1f2a2e; font-family: Arial, sans-serif; margin: 32px; }
         .header { align-items: center; border-bottom: 5px solid #f15a24; display: flex; gap: 24px; padding-bottom: 18px; }
-        .header img { max-width: 220px; width: 32%; }
+        .header img { display: block; flex: 0 0 280px; height: auto; max-height: 86px; max-width: 280px; object-fit: contain; width: 280px; }
         h1 { color: #179bd7; margin: 0 0 6px; }
         h2 { border-bottom: 1px solid #d8e5eb; color: #0b74a9; font-size: 16px; margin-top: 28px; padding-bottom: 6px; text-transform: uppercase; }
         p { line-height: 1.55; white-space: pre-wrap; }
+        .text-block { background: #f4f8fb; border-left: 4px solid #f15a24; padding: 12px 14px; }
         .details { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin-top: 18px; }
         .details div { background: #f4f8fb; border-left: 3px solid #179bd7; padding: 10px 12px; }
         dt { color: #62727b; font-size: 12px; font-weight: 700; text-transform: uppercase; }
-        dd { font-weight: 700; margin: 4px 0 0; }
+        dd { font-weight: 700; margin: 4px 0 0; white-space: pre-wrap; }
         .task { border: 1px solid #d8e5eb; border-left: 4px solid #f15a24; border-radius: 6px; margin: 12px 0; padding: 14px; break-inside: avoid; }
         .photos, .signatures { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-top: 12px; }
         figure { border: 1px solid #d8e5eb; border-radius: 6px; margin: 0; overflow: hidden; break-inside: avoid; }
-        img { display: block; width: 100%; aspect-ratio: 4 / 3; object-fit: cover; }
+        .photos img { display: block; width: 100%; aspect-ratio: 4 / 3; object-fit: cover; }
         figcaption { color: #1f2a2e; font-size: 13px; font-weight: 700; padding: 8px 9px; }
-        .signature img { height: 120px; object-fit: contain; background: #fff; }
+        .signature img { background: #fff; display: block; height: 120px; object-fit: contain; width: 100%; }
+        @media (max-width: 700px) { .header { align-items: flex-start; flex-direction: column; } .header img { flex-basis: auto; width: 260px; } .details, .photos, .signatures { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
@@ -739,12 +745,14 @@ function buildReportHtml(report) {
     <h2>Informe del incidente / requerimiento</h2><p>${escapeHtml(report.incidente)}</p>
     <h2>Actividades realizadas</h2>${buildActivityTasksHtml(report.actividades)}
     <h2>Solucion realizada</h2><p>${escapeHtml(report.solucion)}</p>
+    <h2>Resultado final</h2><p class="text-block">${escapeHtml(report.resultadoFinal)}</p>
+    <h2>Repuestos utilizados</h2><p class="text-block">${escapeHtml(report.repuestos || 'No especificado')}</p>
     <h2>Observaciones</h2><p>${escapeHtml(report.observaciones || 'No especificado')}</p>
     <h2>Conclusiones</h2><p>${escapeHtml(report.conclusiones)}</p>
     <h2>Firmas</h2>
     <section class="signatures">
         <figure class="signature"><img src="${report.firmaTecnico}" alt="Firma tecnico"><figcaption>Firma del tecnico</figcaption></figure>
-        <figure class="signature"><img src="${report.firmaSupervisor}" alt="Firma supervisor"><figcaption>Firma del supervisor</figcaption></figure>
+        <figure class="signature"><img src="${report.firmaSupervisor}" alt="Firma supervisor o administrador de turno"><figcaption>Firma del supervisor o administrador de turno</figcaption></figure>
     </section>
 </body>
 </html>`;
@@ -871,7 +879,11 @@ function createSignaturePad(canvas) {
         empty = false;
     };
     const stop = () => {
+        const completedStroke = drawing && !empty;
         drawing = false;
+        if (completedStroke && canvas.id === 'firmaSupervisor') {
+            setFinalTimeFromSignature();
+        }
         scheduleDraftSave();
         updateProgress();
     };
@@ -907,6 +919,12 @@ function createSignaturePad(canvas) {
             image.src = dataUrl;
         }
     };
+}
+
+function setFinalTimeFromSignature() {
+    fields.horaFinal.value = formatTimeInput(new Date());
+    setFieldError('horaFinal', false);
+    updateDuration();
 }
 
 function scheduleDraftSave() {
@@ -975,6 +993,12 @@ function formatFileDate(date) {
     const hour = String(date.getHours()).padStart(2, '0');
     const minute = String(date.getMinutes()).padStart(2, '0');
     return `${year}-${month}-${day}-${hour}${minute}`;
+}
+
+function formatTimeInput(date) {
+    const hour = String(date.getHours()).padStart(2, '0');
+    const minute = String(date.getMinutes()).padStart(2, '0');
+    return `${hour}:${minute}`;
 }
 
 function escapeHtml(value) {
