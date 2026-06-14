@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#1474a8">
+    <title>Generador de Informes de Incidentes</title>
+    <link rel="stylesheet" href="informe-incidentes.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📋 Informe de Incidentes</h1>
+            <p>Complete todos los campos obligatorios para generar el informe</p>
+        </div>
+
+        <div class="form-content">
+            <form id="incidentForm">
+                <div class="date-field">
+                    <div class="form-group">
+                        <label for="fecha">Fecha del incidente</label>
+                        <input type="date" id="fecha" name="fecha" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="hora">Hora</label>
+                        <input type="time" id="hora" name="hora" required>
+                    </div>
+                </div>
+
+                <div class="form-group" id="incidenteGroup">
+                    <label for="incidente" class="required">Informe del incidente</label>
+                    <textarea 
+                        id="incidente" 
+                        name="incidente" 
+                        placeholder="Describa detalladamente el incidente ocurrido..."
+                        required
+                    ></textarea>
+                    <p class="error-message">Este campo es obligatorio</p>
+                </div>
+
+                <div class="form-group">
+                    <label for="actividades">Actividades realizadas</label>
+                    <textarea 
+                        id="actividades" 
+                        name="actividades" 
+                        class="small"
+                        placeholder="Describa las actividades que se realizaron durante el incidente..."
+                    ></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="solucion">Solución realizada</label>
+                    <textarea 
+                        id="solucion" 
+                        name="solucion" 
+                        placeholder="Describa la solución implementada y detalles sobre la misma..."
+                    ></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="observaciones">Observaciones</label>
+                    <textarea 
+                        id="observaciones" 
+                        name="observaciones" 
+                        class="small"
+                        placeholder="Cualquier observación adicional relevante..."
+                    ></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="conclusiones">Conclusiones</label>
+                    <textarea 
+                        id="conclusiones" 
+                        name="conclusiones" 
+                        class="small"
+                        placeholder="Conclusiones y lecciones aprendidas del incidente..."
+                    ></textarea>
+                </div>
+
+                <div class="button-group">
+                    <button type="button" class="btn btn-secondary" id="btnLimpiar">Limpiar formulario</button>
+                    <button type="button" class="btn btn-primary" id="btnPrevisualizar">Previsualizar</button>
+                    <button type="submit" class="btn btn-success" id="btnGenerar">Generar informe</button>
+                </div>
+            </form>
+
+            <div class="preview-section" id="previewSection">
+                <h3>📄 Vista previa del informe</h3>
+                <div class="preview-item">
+                    <label>Fecha y hora</label>
+                    <p id="previewFecha">-</p>
+                </div>
+                <div class="preview-item">
+                    <label>Informe del incidente</label>
+                    <p id="previewIncidente">-</p>
+                </div>
+                <div class="preview-item">
+                    <label>Actividades realizadas</label>
+                    <p id="previewActividades">-</p>
+                </div>
+                <div class="preview-item">
+                    <label>Solución realizada</label>
+                    <p id="previewSolucion">-</p>
+                </div>
+                <div class="preview-item">
+                    <label>Observaciones</label>
+                    <p id="previewObservaciones">-</p>
+                </div>
+                <div class="preview-item">
+                    <label>Conclusiones</label>
+                    <p id="previewConclusiones">-</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="informe-incidentes.js"></script>
+</body>
+</html>
