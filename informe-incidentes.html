@@ -3,116 +3,139 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#1474a8">
+    <meta name="theme-color" content="#126c7a">
     <title>Generador de Informes de Incidentes</title>
     <link rel="stylesheet" href="informe-incidentes.css">
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>📋 Informe de Incidentes</h1>
-            <p>Complete todos los campos obligatorios para generar el informe</p>
-        </div>
+    <main class="app-shell">
+        <header class="header">
+            <div>
+                <p class="eyebrow">Mantenimiento correctivo</p>
+                <h1>Informe de incidentes</h1>
+            </div>
+            <p>Registre el incidente, documente las acciones realizadas y genere un reporte listo para imprimir o compartir.</p>
+        </header>
 
-        <div class="form-content">
-            <form id="incidentForm">
+        <section class="workspace" aria-label="Generador de informes">
+            <form id="incidentForm" novalidate>
+                <div class="section-heading">
+                    <h2>Datos del incidente</h2>
+                    <p>Los campos marcados con asterisco son obligatorios.</p>
+                </div>
+
                 <div class="date-field">
-                    <div class="form-group">
-                        <label for="fecha">Fecha del incidente</label>
-                        <input type="date" id="fecha" name="fecha" required>
+                    <div class="form-group" id="fechaGroup">
+                        <label for="fecha" class="required">Fecha del incidente</label>
+                        <input type="date" id="fecha" name="fecha" required aria-describedby="fechaError">
+                        <p class="error-message" id="fechaError">Seleccione la fecha del incidente.</p>
                     </div>
-                    <div class="form-group">
-                        <label for="hora">Hora</label>
-                        <input type="time" id="hora" name="hora" required>
+
+                    <div class="form-group" id="horaGroup">
+                        <label for="hora" class="required">Hora</label>
+                        <input type="time" id="hora" name="hora" required aria-describedby="horaError">
+                        <p class="error-message" id="horaError">Seleccione la hora del incidente.</p>
                     </div>
                 </div>
 
                 <div class="form-group" id="incidenteGroup">
                     <label for="incidente" class="required">Informe del incidente</label>
-                    <textarea 
-                        id="incidente" 
-                        name="incidente" 
-                        placeholder="Describa detalladamente el incidente ocurrido..."
+                    <textarea
+                        id="incidente"
+                        name="incidente"
+                        placeholder="Describa detalladamente el incidente ocurrido."
                         required
+                        aria-describedby="incidenteError"
                     ></textarea>
-                    <p class="error-message">Este campo es obligatorio</p>
+                    <p class="error-message" id="incidenteError">Describa el incidente antes de generar el informe.</p>
                 </div>
 
                 <div class="form-group">
                     <label for="actividades">Actividades realizadas</label>
-                    <textarea 
-                        id="actividades" 
-                        name="actividades" 
+                    <textarea
+                        id="actividades"
+                        name="actividades"
                         class="small"
-                        placeholder="Describa las actividades que se realizaron durante el incidente..."
+                        placeholder="Detalle las actividades realizadas durante la atenci&oacute;n."
                     ></textarea>
                 </div>
 
                 <div class="form-group">
-                    <label for="solucion">Solución realizada</label>
-                    <textarea 
-                        id="solucion" 
-                        name="solucion" 
-                        placeholder="Describa la solución implementada y detalles sobre la misma..."
+                    <label for="solucion">Soluci&oacute;n realizada</label>
+                    <textarea
+                        id="solucion"
+                        name="solucion"
+                        placeholder="Describa la soluci&oacute;n implementada y los resultados obtenidos."
                     ></textarea>
                 </div>
 
                 <div class="form-group">
                     <label for="observaciones">Observaciones</label>
-                    <textarea 
-                        id="observaciones" 
-                        name="observaciones" 
+                    <textarea
+                        id="observaciones"
+                        name="observaciones"
                         class="small"
-                        placeholder="Cualquier observación adicional relevante..."
+                        placeholder="Incluya observaciones adicionales relevantes."
                     ></textarea>
                 </div>
 
                 <div class="form-group">
                     <label for="conclusiones">Conclusiones</label>
-                    <textarea 
-                        id="conclusiones" 
-                        name="conclusiones" 
+                    <textarea
+                        id="conclusiones"
+                        name="conclusiones"
                         class="small"
-                        placeholder="Conclusiones y lecciones aprendidas del incidente..."
+                        placeholder="Registre conclusiones, recomendaciones o lecciones aprendidas."
                     ></textarea>
                 </div>
 
-                <div class="button-group">
-                    <button type="button" class="btn btn-secondary" id="btnLimpiar">Limpiar formulario</button>
+                <div class="button-group" aria-label="Acciones del formulario">
+                    <button type="button" class="btn btn-secondary" id="btnLimpiar">Limpiar</button>
                     <button type="button" class="btn btn-primary" id="btnPrevisualizar">Previsualizar</button>
-                    <button type="submit" class="btn btn-success" id="btnGenerar">Generar informe</button>
+                    <button type="button" class="btn btn-secondary" id="btnCopiar">Copiar</button>
+                    <button type="button" class="btn btn-secondary" id="btnDescargar">Descargar</button>
+                    <button type="submit" class="btn btn-success" id="btnGenerar">Imprimir</button>
                 </div>
+
+                <p class="status-message" id="statusMessage" role="status" aria-live="polite"></p>
             </form>
 
-            <div class="preview-section" id="previewSection">
-                <h3>📄 Vista previa del informe</h3>
-                <div class="preview-item">
-                    <label>Fecha y hora</label>
+            <article class="preview-section" id="previewSection" aria-live="polite">
+                <div class="report-header">
+                    <p class="report-label">Reporte generado</p>
+                    <h2>Informe t&eacute;cnico de incidente</h2>
                     <p id="previewFecha">-</p>
                 </div>
-                <div class="preview-item">
-                    <label>Informe del incidente</label>
-                    <p id="previewIncidente">-</p>
+
+                <div class="preview-grid">
+                    <section class="preview-item">
+                        <h3>Informe del incidente</h3>
+                        <p id="previewIncidente">-</p>
+                    </section>
+
+                    <section class="preview-item">
+                        <h3>Actividades realizadas</h3>
+                        <p id="previewActividades">-</p>
+                    </section>
+
+                    <section class="preview-item">
+                        <h3>Soluci&oacute;n realizada</h3>
+                        <p id="previewSolucion">-</p>
+                    </section>
+
+                    <section class="preview-item">
+                        <h3>Observaciones</h3>
+                        <p id="previewObservaciones">-</p>
+                    </section>
+
+                    <section class="preview-item">
+                        <h3>Conclusiones</h3>
+                        <p id="previewConclusiones">-</p>
+                    </section>
                 </div>
-                <div class="preview-item">
-                    <label>Actividades realizadas</label>
-                    <p id="previewActividades">-</p>
-                </div>
-                <div class="preview-item">
-                    <label>Solución realizada</label>
-                    <p id="previewSolucion">-</p>
-                </div>
-                <div class="preview-item">
-                    <label>Observaciones</label>
-                    <p id="previewObservaciones">-</p>
-                </div>
-                <div class="preview-item">
-                    <label>Conclusiones</label>
-                    <p id="previewConclusiones">-</p>
-                </div>
-            </div>
-        </div>
-    </div>
+            </article>
+        </section>
+    </main>
 
     <script src="informe-incidentes.js"></script>
 </body>
