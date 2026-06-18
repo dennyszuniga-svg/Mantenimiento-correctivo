@@ -730,24 +730,26 @@ function buildReportHtml(report) {
     <meta charset="UTF-8">
     <title>${escapeHtml(report.numeroInforme)} - Informe tecnico UrbaPark</title>
     <style>
-        body { color: #1f2a2e; font-family: Arial, sans-serif; margin: 32px; }
+        * { box-sizing: border-box; }
+        body { color: #1f2a2e; font-family: Arial, sans-serif; font-size: 12px; margin: 18px; }
         .header { align-items: center; border-bottom: 5px solid #f15a24; display: flex; gap: 24px; padding-bottom: 18px; }
         .header img { display: block; flex: 0 0 280px; height: auto; max-height: 86px; max-width: 280px; object-fit: contain; width: 280px; }
         h1 { color: #179bd7; margin: 0 0 6px; }
-        h2 { border-bottom: 1px solid #d8e5eb; color: #0b74a9; font-size: 16px; margin-top: 28px; padding-bottom: 6px; text-transform: uppercase; }
-        p { line-height: 1.55; white-space: pre-wrap; }
-        .text-block { background: #f4f8fb; border-left: 4px solid #f15a24; padding: 12px 14px; }
-        .details { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin-top: 18px; }
-        .details div { background: #f4f8fb; border-left: 3px solid #179bd7; padding: 10px 12px; }
-        dt { color: #62727b; font-size: 12px; font-weight: 700; text-transform: uppercase; }
+        h2 { border-bottom: 1px solid #d8e5eb; color: #0b74a9; font-size: 13px; margin: 14px 0 8px; padding-bottom: 5px; text-transform: uppercase; }
+        p { line-height: 1.38; margin: 0 0 8px; white-space: pre-wrap; }
+        .text-block { background: #f4f8fb; border-left: 4px solid #f15a24; padding: 8px 10px; }
+        .details { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 7px; margin-top: 12px; }
+        .details div { background: #f4f8fb; border-left: 3px solid #179bd7; min-height: 0; padding: 7px 9px; break-inside: auto; page-break-inside: auto; }
+        dt { color: #62727b; font-size: 10px; font-weight: 700; text-transform: uppercase; }
         dd { font-weight: 700; margin: 4px 0 0; white-space: pre-wrap; }
-        .task { border: 1px solid #d8e5eb; border-left: 4px solid #f15a24; border-radius: 6px; margin: 12px 0; padding: 14px; break-inside: avoid; }
-        .photos, .signatures { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-top: 12px; }
+        .task { border: 1px solid #d8e5eb; border-left: 4px solid #f15a24; border-radius: 6px; margin: 8px 0; padding: 10px; break-inside: auto; page-break-inside: auto; }
+        .photos, .signatures { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin-top: 10px; }
         figure { border: 1px solid #d8e5eb; border-radius: 6px; margin: 0; overflow: hidden; break-inside: avoid; }
         .photos img { display: block; width: 100%; aspect-ratio: 4 / 3; object-fit: cover; }
-        figcaption { color: #1f2a2e; font-size: 13px; font-weight: 700; padding: 8px 9px; }
-        .signature img { background: #fff; display: block; height: 120px; object-fit: contain; width: 100%; }
-        @media (max-width: 700px) { .header { align-items: flex-start; flex-direction: column; } .header img { flex-basis: auto; width: 260px; } .details, .photos, .signatures { grid-template-columns: 1fr; } }
+        figcaption { color: #1f2a2e; font-size: 11px; font-weight: 700; padding: 7px 8px; }
+        .signature img { background: #fff; display: block; height: 105px; object-fit: contain; width: 100%; }
+        @media print { body { margin: 12mm; } h2 { break-after: avoid; page-break-after: avoid; } .details { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+        @media (max-width: 700px) { .header { align-items: flex-start; flex-direction: column; } .header img { flex-basis: auto; width: 240px; } .details { grid-template-columns: repeat(2, minmax(0, 1fr)); } .photos, .signatures { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
