@@ -28,14 +28,21 @@ body {
     font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
+.header,
+.section-heading,
+.progress-panel,
+.field-header,
+.report-header {
+    position: static !important;
+    top: auto !important;
+}
+
 .app-shell {
     width: min(1120px, 100%);
     margin: 0 auto;
 }
 
 .header {
-    position: static;
-    top: auto;
     display: grid;
     grid-template-columns: 220px minmax(0, 1fr);
     align-items: center;
@@ -82,8 +89,6 @@ body {
 }
 
 .section-heading {
-    position: static;
-    top: auto;
     margin-bottom: 22px;
 }
 
@@ -200,8 +205,6 @@ body {
 }
 
 .field-header {
-    position: static;
-    top: auto;
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
