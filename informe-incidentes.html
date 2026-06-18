@@ -206,6 +206,10 @@
                     <div class="form-group signature-card" id="firmaTecnicoGroup">
                         <label class="required">Firma digital del t&eacute;cnico</label>
                         <canvas id="firmaTecnico" width="560" height="180" aria-label="Firma digital del tecnico"></canvas>
+                        <div class="signature-meta">
+                            <label for="firmaTecnicoNombre">Nombre del t&eacute;cnico</label>
+                            <input type="text" id="firmaTecnicoNombre" name="firmaTecnicoNombre" readonly placeholder="Se completa con el personal registrado al inicio">
+                        </div>
                         <button type="button" class="btn btn-secondary btn-small" data-clear-signature="firmaTecnico">Limpiar firma</button>
                         <p class="error-message">Registre la firma del t&eacute;cnico.</p>
                     </div>
@@ -213,8 +217,12 @@
                     <div class="form-group signature-card" id="firmaSupervisorGroup">
                         <label class="required">Firma digital del supervisor o administrador de turno</label>
                         <canvas id="firmaSupervisor" width="560" height="180" aria-label="Firma digital del supervisor o administrador de turno"></canvas>
+                        <div class="signature-meta">
+                            <label for="firmaSupervisorNombre" class="required">Nombre del supervisor o administrador</label>
+                            <input type="text" id="firmaSupervisorNombre" name="firmaSupervisorNombre" placeholder="Nombre y apellido" required>
+                        </div>
                         <button type="button" class="btn btn-secondary btn-small" data-clear-signature="firmaSupervisor">Limpiar firma</button>
-                        <p class="error-message">Registre la firma del supervisor o administrador de turno.</p>
+                        <p class="error-message">Registre la firma y el nombre del supervisor o administrador de turno.</p>
                     </div>
                 </div>
 

@@ -16,6 +16,8 @@ const fields = {
     numeroInforme: document.getElementById('numeroInforme'),
     clienteArea: document.getElementById('clienteArea'),
     personal: document.getElementById('personal'),
+    firmaTecnicoNombre: document.getElementById('firmaTecnicoNombre'),
+    firmaSupervisorNombre: document.getElementById('firmaSupervisorNombre'),
     sede: document.getElementById('sede'),
     equipo: document.getElementById('equipo'),
     prioridad: document.getElementById('prioridad'),
@@ -50,7 +52,8 @@ const groups = {
     conclusiones: document.getElementById('conclusionesGroup'),
     actividades: document.getElementById('activityTasksGroup'),
     firmaTecnico: document.getElementById('firmaTecnicoGroup'),
-    firmaSupervisor: document.getElementById('firmaSupervisorGroup')
+    firmaSupervisor: document.getElementById('firmaSupervisorGroup'),
+    firmaSupervisorNombre: document.getElementById('firmaSupervisorGroup')
 };
 
 const preview = {
@@ -95,11 +98,13 @@ Object.entries(fields).forEach(([name, field]) => {
             setFieldError(name, false);
         }
 
+        syncSignatureNames();
         updateComputedFields();
         scheduleDraftSave();
     });
     field.addEventListener('change', () => {
         updateEstadoInicialOtroVisibility();
+        syncSignatureNames();
         updateComputedFields();
         scheduleDraftSave();
     });
@@ -220,6 +225,7 @@ function initForm() {
 
     renderTasks();
     updateEstadoInicialOtroVisibility();
+    syncSignatureNames();
     updateComputedFields();
 }
 
@@ -229,6 +235,7 @@ function startNewReport() {
     fields.numeroInforme.value = formatReportNumber(reportSequence);
     reportNumberLabel.textContent = `Informe ${fields.numeroInforme.value}`;
     setDefaultTimes();
+    syncSignatureNames();
     tasks = [];
     nextTaskId = 1;
     createTask();
@@ -245,6 +252,7 @@ function applyDraft(draft) {
     reportSaved = Boolean(draft.reportSaved);
     fields.numeroInforme.value = draft.reportNumber || formatReportNumber(reportSequence);
     reportNumberLabel.textContent = `Informe ${fields.numeroInforme.value}`;
+    syncSignatureNames();
     tasks = draft.tasks?.length ? draft.tasks : [];
     nextTaskId = Math.max(0, ...tasks.map((task) => task.id || 0)) + 1;
 
@@ -265,6 +273,10 @@ function setDefaultTimes() {
     if (!fields.horaInicio.value) {
         fields.horaInicio.value = new Date().toTimeString().slice(0, 5);
     }
+}
+
+function syncSignatureNames() {
+    fields.firmaTecnicoNombre.value = fields.personal.value.trim();
 }
 
 function resetForm() {
@@ -454,6 +466,8 @@ function getGeneralDetailItems(report) {
         ['Nro. informe', report.numeroInforme],
         ['Cliente / area', report.clienteArea],
         ['Personal', report.personal],
+        ['Nombre firma tecnico', report.firmaTecnicoNombre],
+        ['Supervisor / administrador', report.firmaSupervisorNombre],
         ['Sede', report.sede],
         ['Equipo', report.equipo],
         ['Prioridad', report.prioridad],
@@ -495,11 +509,11 @@ function renderSignatures(report) {
     preview.firmas.innerHTML = `
         <figure class="report-signature">
             <img src="${report.firmaTecnico}" alt="Firma del tecnico">
-            <p>Firma del t&eacute;cnico</p>
+            <p>Firma del t&eacute;cnico<br><span>${escapeHtml(report.firmaTecnicoNombre)}</span></p>
         </figure>
         <figure class="report-signature">
             <img src="${report.firmaSupervisor}" alt="Firma del supervisor">
-            <p>Firma del supervisor o administrador de turno</p>
+            <p>Firma del supervisor o administrador de turno<br><span>${escapeHtml(report.firmaSupervisorNombre)}</span></p>
         </figure>
     `;
 }
@@ -508,9 +522,11 @@ function getReportData() {
     const estadoInicialTexto = fields.estadoInicial.value === 'Otro'
         ? `Otro: ${fields.estadoInicialOtro.value.trim()}`
         : fields.estadoInicial.value.trim();
+    syncSignatureNames();
 
     return {
         ...Object.fromEntries(Object.entries(fields).map(([name, field]) => [name, field.value.trim()])),
+        firmaTecnicoNombre: fields.personal.value.trim(),
         estadoInicialTexto,
         fechaGuardado: lastGeneratedAt,
         actividades: getCompletedTasks(),
@@ -538,6 +554,7 @@ function validateReport(report) {
     const requiredFields = [
         'clienteArea',
         'personal',
+        'firmaSupervisorNombre',
         'sede',
         'equipo',
         'prioridad',
@@ -751,8 +768,8 @@ function buildReportHtml(report) {
     <h2>Conclusiones</h2><p>${escapeHtml(report.conclusiones)}</p>
     <h2>Firmas</h2>
     <section class="signatures">
-        <figure class="signature"><img src="${report.firmaTecnico}" alt="Firma tecnico"><figcaption>Firma del tecnico</figcaption></figure>
-        <figure class="signature"><img src="${report.firmaSupervisor}" alt="Firma supervisor o administrador de turno"><figcaption>Firma del supervisor o administrador de turno</figcaption></figure>
+        <figure class="signature"><img src="${report.firmaTecnico}" alt="Firma tecnico"><figcaption>Firma del tecnico<br>${escapeHtml(report.firmaTecnicoNombre)}</figcaption></figure>
+        <figure class="signature"><img src="${report.firmaSupervisor}" alt="Firma supervisor o administrador de turno"><figcaption>Firma del supervisor o administrador de turno<br>${escapeHtml(report.firmaSupervisorNombre)}</figcaption></figure>
     </section>
 </body>
 </html>`;
@@ -809,6 +826,7 @@ function updateProgress() {
     const checks = [
         fields.clienteArea.value.trim(),
         fields.personal.value.trim(),
+        fields.firmaSupervisorNombre.value.trim(),
         fields.sede.value.trim(),
         fields.equipo.value.trim(),
         fields.prioridad.value,

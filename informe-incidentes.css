@@ -28,15 +28,6 @@ body {
     font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
-.header,
-.section-heading,
-.progress-panel,
-.field-header,
-.report-header {
-    position: static !important;
-    top: auto !important;
-}
-
 .app-shell {
     width: min(1120px, 100%);
     margin: 0 auto;
@@ -516,6 +507,23 @@ body {
     border-radius: 6px;
     background: #fff;
     touch-action: none;
+}
+
+.signature-meta {
+    display: grid;
+    gap: 6px;
+    margin-top: 10px;
+}
+
+.signature-meta label {
+    color: var(--muted);
+    font-size: 12px;
+    font-weight: 800;
+    text-transform: uppercase;
+}
+
+.signature-meta input {
+    min-height: 40px;
 }
 
 .signature-card .btn {
