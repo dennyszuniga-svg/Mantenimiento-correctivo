@@ -34,6 +34,8 @@ body {
 }
 
 .header {
+    position: static;
+    top: auto;
     display: grid;
     grid-template-columns: 220px minmax(0, 1fr);
     align-items: center;
@@ -80,6 +82,8 @@ body {
 }
 
 .section-heading {
+    position: static;
+    top: auto;
     margin-bottom: 22px;
 }
 
@@ -196,6 +200,8 @@ body {
 }
 
 .field-header {
+    position: static;
+    top: auto;
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
